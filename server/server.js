@@ -7,6 +7,8 @@ const Message = require('./models/Message');
 const app = express();
 const port = 3000;
 
+app.use(express.static('public'));
+
 // Routes
 app.get('/test', async (req, res) => {  // FIXME remove test route
     let user = new User({ user_id: 'test_user', session: null, icon: '❤' });
