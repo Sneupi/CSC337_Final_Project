@@ -6,6 +6,7 @@ const Message = require('./models/Message');
 
 const app = express();
 const port = 3000;
+const db_url = process.env.MONGO_URL || 'mongodb://localhost:27017';
 
 app.use(express.static('public'));
 
@@ -18,7 +19,7 @@ app.get('/test', async (req, res) => {  // FIXME remove test route
 });
 
 // Start server
-mongoose.connect(process.env.MONGO_URL, { serverSelectionTimeoutMS: 5000 })
+mongoose.connect(db_url, { serverSelectionTimeoutMS: 5000 })
     .then(() => {
         app.listen(port, () => {
             console.log(`Server is running on http://localhost:${port}/`);
