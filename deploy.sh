@@ -1,21 +1,21 @@
 sudo apt-get update
 
 # Check if Node.js is installed
-if ! command -v node &> /dev/null
+if ! which node &> /dev/null
 then
     echo "Node.js not found, installing..."
     sudo apt install nodejs -y
 fi
 
 # Check if npm is installed
-if ! command -v npm &> /dev/null
+if ! which npm &> /dev/null
 then
     echo "npm not found, installing..."
     sudo apt install npm -y
 fi
 
 # Check if Docker is installed
-if ! command -v docker &> /dev/null
+if ! which docker &> /dev/null
 then
     echo "Docker not found, installing..."
     curl -fsSL https://get.docker.com -o get-docker.sh
