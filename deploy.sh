@@ -23,14 +23,7 @@ then
     sudo apt-get install docker-compose-plugin -y
 fi
 
-# Setup App 
-mkdir -p ~/app
-cd ~/app
-if [ ! -d "CSC337_Final_Project" ]; then
-    git clone https://github.com/Sneupi/CSC337_Final_Project.git
-fi
-cd CSC337_Final_Project
-git checkout exp2
+# Pull latest from repo
 git pull
 
 # Build and run the app
