@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+
+  myapp:
+    build: 
+      context: ./server
+      dockerfile: Dockerfile
+    environment:
+      MONGO_URL: mongodb://mymongo:27017/mydb
+    ports:
+      - 3000:3000
+    restart: always
+    expose:
+      - 3000
+
+  mymongo:
+    image: mongo:6
+    ports:
+      - 27017:27017
+    restart: always
+    expose:
+      - 27017
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
