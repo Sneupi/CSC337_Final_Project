@@ -1,16 +1,31 @@
+<!--
+File: index.html (can we change name later?)
+Desc: LogIn Page for CSS 337 Project 
+-->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Login Page</title>
+    <link rel="stylesheet" href="css/index.css">
+    <title> Welcome to our Page </title>
 </head>
+
 <body>
-    <div class="login_container">
-        <h2>Login</h2>
-        <form id="login_form" action="/login" method="post">
-            <input type="text" id="user_id" name="user_id" placeholder="Username" required>
-            <input type="submit" id="login_button" value="Login">
-        </form>
+    <h1> Please Enter Username and Room Number </h1>
+    <div>
+        <span>
+            <label for="userName"> Username: </label>
+            <input type="text" id="userName" name="userName" required>
+        </span>
+        <span>
+            <label for="roomName"> Room Name: </label>
+            <input type="text" id="roomName" name="roomName" required>
+        </span>
+        <button type="button"> Start Chatting ! </button>
     </div>
+    <button class="helpButton" type="button"> ? </button>
+    <script src="js/index.js"></script>
 </body>
+
 </html>
