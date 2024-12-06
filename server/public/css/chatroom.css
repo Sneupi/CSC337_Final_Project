@@ -4,11 +4,21 @@ body {
     font-family: 'Lucida Sans';
     background-color: deepskyblue;
     color: white;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
 }
 
+#wrapper {
+    display: flex;
+    margin-top: 50px;
+    padding: 35px;
+    gap: 50px;
+}
 #mainContent {
-    margin-top: 100px;
-    margin-left: 25px;
+    margin-top: 20px;
+    margin-left: 50px;
 }
 
 h1 {
@@ -20,18 +30,19 @@ h1 {
     font-family: 'Lucida Sans';
     font-size: 18px;
     height: 500px;
-    width: 500px;
+    width: 750px;
     border: 2px solid black;
     border-radius: 5px;
     background-color: white;
     color: black;
+    overflow-y: auto;
 }
 
 #userChat {
     font-family: 'Lucida Sans';
     font-size: 18px;
     height: 100px;
-    width: 500px;
+    width: 700px;
     margin-top: 15px;
     border: 2px solid black;
     border-radius: 5px;
@@ -63,23 +74,27 @@ button {
     border: 2px solid black;
     border-radius: 5px;
     cursor: pointer;
+}
+
+#enterButton {
     margin-left: 10px;
     margin-top: 85px;
 }
 
 #userList {
-    position: absolute;
-    top: 100px;
-    left: 10px;
-    width: 15%;
+    flex: 0 0 15%;
+    height: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-top: 200px;
+    margin-left: 10px;
     border: 2px solid black;
     border-radius: 5px;
-    z-index: -1;
+    box-sizing: border-box;
 }
 
 li {
-    margin: 2px;
-    padding: 2px;
+    margin-top: 5px;
 }
 
 #bottomButtons {
@@ -87,4 +102,21 @@ li {
     bottom: 20px;
     left: 5px;
     display: flex;
+}
+
+#interface {
+    border: 2px solid white;
+    border-radius: 5px;
+    text-align: right;
+    display: flex;
+    position: fixed;
+    right: 20px;
+    top: 10px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+#logOut {
+    font-size: 16px;
+    margin-left: 10px;
 }

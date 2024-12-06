@@ -12,20 +12,39 @@ Desc: LogIn Page for CSS 337 Project
 </head>
 
 <body>
-    <h1> Please Enter Username and Room Number </h1>
-    <div>
+    <h1> Welcome to Chatrooms </h1>
+    <p> Please enter your info to get started! </p>
+    <div id="mainContent">
         <span>
             <label for="userName"> Username: </label>
             <input type="text" id="userName" name="userName" required>
+        </span>
+        <span> 
+            <label for="userIcon"> Icon: </label>
+            <select id="userIcon" name="userIcon"> 
+                <option value="bicep"> Bicep Emoji </option>
+                <option value="flower"> Flower Emoji </option>
+                <option value="animal"> Animal Emoji </option>
+                <option value="peace"> Peace Emoji </option>
+                <option value="tree"> Tree Emoji </option>
+                <option value="surfer"> Surf Hand Emoji </option>
+                <option value="fairy"> Fairy Emoji </option>
+                <option value="diamond"> Diamond Emoji </option>
+                <option value="glasses"> Glasses Emoji </option>
+                <option value="book"> Book Emoji </option>
+            </select>
         </span>
         <span>
             <label for="roomName"> Room Name: </label>
             <input type="text" id="roomName" name="roomName" required>
         </span>
-        <button type="button"> Start Chatting ! </button>
+        <button type="button"> Start Chatting  </button>
     </div>
-    <button class="helpButton" type="button"> ? </button>
-    <script src="js/index.js"></script>
+    <p id="asterisk"> *If you have any concerns click on the question mark on the bottom left of your screen. </p>
+    <div id="bottomButtons">
+        <button type="button"> ? </button>
+    </div>
+        <script src="js/index.js"></script>
 </body>
 
 </html>

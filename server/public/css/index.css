@@ -8,14 +8,20 @@
     color: white;
 }
 
+p {
+    font-size: 24px;
+    text-align: center;
+}
+
 h1 {
     font-size: 60px;
     text-align: center;
     margin-top: 250px;
     margin-bottom: 50px;
+    font-weight: bold;
 }
 
-div {
+#mainContent {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -45,8 +51,14 @@ button {
     cursor: pointer;
 }
 
-.helpButton {
-    position: absolute;
-    bottom: 10%;
-    left: 2%;
+#bottomButtons {
+    position: fixed;
+    bottom: 20px;
+    left: 5px;
+    display: flex;
+}
+
+#asterisk {
+    margin-top: 50px;
+    font-size: 16px;
 }

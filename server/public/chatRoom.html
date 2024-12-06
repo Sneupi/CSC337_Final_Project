@@ -13,29 +13,36 @@
 </head>
 
 <body> 
-    <ul id ="userList">
-        <h2> Current Users in Chat: </h2>
-        <li> Example User 1 </li>
-        <li> Example User 2 </li>
-        <li> Example User 3 </li>
-    </ul>
-    <div id="mainContent">
-        <h1> Chatroom: </h1>
-        <div id="allButHeader">
+    <div id="interface"> 
+        Username: Icon: Green Dot Emoji 
+        <button id="logOut" type="button"> LogOut </button>
+    </div>
+    <div id="wrapper">
+        <ul id ="userList">
+            <h2> Current Users in Room: </h2>
+            <li> Example User 1 </li>
+            <li> Example User 2 </li>
+            <li> Example User 3 </li>
+        </ul>
+        <div id="mainContent">
+            <h1> Chatroom: </h1>
+            <div id="allButHeader">
                 <div id="bothChats">
                     <div id="chat" name="chat"> 
                         Existing Chat: 
                     </div>
                     <div id="userDisplay">
                         <textarea id="userChat" name="userChat"> Username: </textarea>
-                        <button type="button"> Enter </button>
+                        <button id="enterButton" type="button"> Enter </button>
                     </div>
                 </div>
+            </div>
         </div>
     </div>
     <div id="bottomButtons">
         <button type="button"> Home Icon </button>
-        <button type="button"> ? </button>
+        <button type="button"> Chat Icon </button>
+        <button type="button"\> ? </button>
     </div>
 </body>
 
