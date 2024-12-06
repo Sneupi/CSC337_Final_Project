@@ -1,4 +1,5 @@
 
+const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 const User = require('./models/User');
@@ -10,7 +11,7 @@ const port = 3000;
 const db_url = process.env.MONGO_URL || 'mongodb://localhost:27017';
 
 app.use(express.json()); // Middleware to parse JSON requests
-app.use(express.static('public')); // Serve static frontend files
+app.use(express.static(path.join(__dirname, 'public'))); // Serve static frontend files
 
 // Basic Skeleton for server.js, subject to change if needed
 
