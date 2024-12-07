@@ -32,11 +32,60 @@ app.use(express.static(path.join(__dirname, 'public'))); // Serve static fronten
  * - Middleware for session validation on all routes.
  */
 app.post('/login', async (req, res) => {
-    // TODO: Gabe implements user login.
+    if (!req.body.userName || !req.body.userIcon) {
+        return res.status(404).json({ message: 'Expected JSON attributes: userName, userIcon' });
+    }
+    // ... the POST body is valid ...
+    let userName = req.body.userName;
+    let userIcon = req.body.userIcon;
+    try {
+        let user = await User.findOne({ user_id: userName });
+        if (!user) {
+            user = new User({ user_id: userName, session: null, icon: userIcon });
+            await user.save();
+        }
+        // ... user exists in db ...
+        if (user && user.session) {
+            return res.status(404).json({ message: 'Username currently in-use' });
+        }
+        // ... username is free ...
+        const sessionId = new mongoose.Types.ObjectId().toString();
+        res.cookie('sessionId', sessionId, { httpOnly: true, secure: true });
+        user.session = sessionId;
+        await user.save();
+        // ... created & shared the session cookie ...
+        res.status(200).json({ message: 'Logged in successfully' });
+        // ... logged OK ...
+
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
 });
 
 app.post('/logout', async (req, res) => {
-    // TODO: Gabe implements user logout and session cleanup.
+    try { req.cookies.sessionId } catch (error) {
+        return res.status(404).json({ message: error.message });
+    }
+    // ... the POST body is valid ...
+    let sessionId = req.cookies.sessionId;
+    if (!sessionId) {
+        return res.status(404).json({ message: 'No session found' });
+    }
+    // ... session cookie is present ...
+    try {
+        let user = await User.findOne({ session: sessionId });
+        if (!user) {
+            return res.status(404).json({ message: 'Invalid session' });
+        }
+        // ... session found in db ...
+        user.session = null;
+        await user.save();
+        res.clearCookie('sessionId');
+        res.status(200).json({ message: 'Logged out successfully' });
+        // ... cleared ...
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
 });
 
 /**
