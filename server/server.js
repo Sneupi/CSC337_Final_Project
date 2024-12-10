@@ -1,6 +1,7 @@
 
 const path = require('path');
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const User = require('./models/User');
 const Room = require('./models/Room');
@@ -12,6 +13,7 @@ const db_url = process.env.MONGO_URL || 'mongodb://localhost:27017';
 
 app.use(express.json()); // Middleware to parse JSON requests
 app.use(express.static(path.join(__dirname, 'public'))); // Serve static frontend files
+app.use(cookieParser()); // Middleware to parse cookies
 
 // Basic Skeleton for server.js, subject to change if needed
 
@@ -49,6 +51,15 @@ app.post('/login', async (req, res) => {
             return res.status(404).json({ message: 'Username currently in-use' });
         }
         // ... username is free ...
+        const oldSessionId = req.cookies.sessionId;
+        if (oldSessionId) {
+            let oldUser = await User.findOne({ session: oldSessionId });
+            if (oldUser) {
+                oldUser.session = null;
+                await oldUser.save();
+            }
+        }
+        // ... freed old session cookie (if any) ...
         const sessionId = new mongoose.Types.ObjectId().toString();
         res.cookie('sessionId', sessionId, { httpOnly: true, secure: true });
         user.session = sessionId;
