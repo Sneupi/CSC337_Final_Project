@@ -1,0 +1,50 @@
+<!-- 
+    File: chatroom.html
+    Desc: This is the html for each chat room.
+-->
+
+<!DOCTYPE html> 
+<html lang="en"> 
+
+<head> 
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/chatroom.css">
+    <title> Chatroom: </title>
+</head>
+
+<body> 
+    <div id="interface"> 
+        carlossilva23 <i class="fa-regular fa-circle-check"></i>
+        <button id="logOut" type="button"> <i class="fa-solid fa-right-from-bracket"></i> </button>
+    </div>
+    <div id="wrapper">
+        <ul id ="userList">
+            <h2> Current Users in Room: </h2>
+            <li> Example User 1 </li>
+            <li> Example User 2 </li>
+            <li> Example User 3 </li>
+        </ul>
+        <div id="mainContent">
+            <h1> Chatroom: </h1>
+            <div id="allButHeader">
+                <div id="bothChats">
+                    <div id="chat" name="chat"> 
+                        Existing Chat: 
+                    </div>
+                    <div id="userDisplay">
+                        <textarea id="userChat" name="userChat"> Username: </textarea>
+                        <button id="enterButton" type="button"> Enter </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="bottomButtons">
+        <button type="button" id = homeButton> <i class="fa-solid fa-house"></i> </button>
+        <button type="button" id = chatButton> <i class="fa-brands fa-rocketchat"></i> </button>
+        <button type="button" id = qButton> <i class="fa-solid fa-circle-question"></i> </button>
+    </div>
+    <script src="https://kit.fontawesome.com/a084be21d7.js" crossorigin="anonymous"></script>
+</body>
+
+</html>

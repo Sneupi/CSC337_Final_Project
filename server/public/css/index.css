@@ -1,0 +1,81 @@
+/* 
+ * File: index.css
+ * Desc: Styling for login page for 337 Final Project.
+ */
+ body {
+    font-family: 'Lucida Sans';
+    background-color: deepskyblue;
+    color: white;
+}
+
+p {
+    font-size: 24px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 60px;
+    text-align: center;
+    margin-top: 250px;
+    margin-bottom: 50px;
+    font-weight: bold;
+}
+
+#mainContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    font-style: bold;
+}
+
+span {
+    display: flex;
+    align-items: center;
+    margin: 10px;
+    gap: 10px;
+}
+
+input{
+    font-family: 'Lucida Sans';
+    font-size: 24px;
+}
+
+button {
+    font-family: 'Lucida Sans';
+    font-size: 24px;
+    border: 2px solid black;
+    border-radius: 5px;
+    background-color: white;
+    color: black;
+    cursor: pointer;
+}
+
+#bottomButtons {
+    position: fixed;
+    bottom: 20px;
+    left: 5px;
+    display: flex;
+}
+
+#asterisk {
+    margin-top: 50px;
+    font-size: 16px;
+}
+
+#selectedIcon {
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#dropDownMenu {
+    padding: 5px;
+    border: 1px solid black;
+    display: none;
+}
+
+#dropDownMenu.open {
+    display: block;
+}

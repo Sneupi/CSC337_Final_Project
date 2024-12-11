@@ -1,0 +1,92 @@
+/* This is the CSS for the Explore Page
+*/
+
+body {
+    color: white;
+    font-family: 'Lucida Sans';
+    background-color: deepskyblue;
+}
+
+h1 {
+    font-size: 40px;
+    text-align: center;
+    margin-top: 100px;
+}
+
+#classWrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+ }
+
+.instance {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#createChat {
+    gap: 10px;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    border: 2px solid white;
+    border-radius: 5px;
+    padding: 10px;
+    left: 35%;
+    right: 35%;
+    bottom: 50px;
+    padding: 10px;
+}
+
+#interface {
+    border: 2px solid white;
+    border-radius: 5px;
+    text-align: right;
+    display: flex;
+    position: fixed;
+    right: 20px;
+    top: 10px;
+    padding: 10px;
+    font-size: 16px;
+    color: white;
+}
+
+#logOut {
+    font-family: 'Lucida Sans';
+    font-size: 16px;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+#newRoom {
+    font-size: 16px;
+}
+
+#roomButton {
+    font-family: 'Lucida Sans';
+    font-size: 16px;
+    border: 2px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#bottomButtons {
+    position: fixed;
+    bottom: 20px;
+    left: 5px;
+    display: flex;
+}
+
+
+button {
+    font-family: 'Lucida Sans';
+    font-size: 18px;
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+}

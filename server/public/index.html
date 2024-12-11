@@ -1,16 +1,54 @@
+<!--
+File: index.html (can we change name later?)
+Desc: LogIn Page for CSS 337 Project 
+-->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Login Page</title>
+    <link rel="stylesheet" href="css/index.css">
+    <title> Welcome to our Page </title>
 </head>
+
 <body>
-    <div class="login_container">
-        <h2>Login</h2>
-        <form id="login_form" action="/login" method="post">
-            <input type="text" id="user_id" name="user_id" placeholder="Username" required>
-            <input type="submit" id="login_button" value="Login">
-        </form>
+    <h1> Welcome to Chatrooms </h1>
+    <p> Please enter your info to get started! </p>
+    <div id="mainContent">
+        <span>
+            <label for="userName"> Username: </label>
+            <input type="text" id="userName" name="userName" required>
+        </span>
+        <span> 
+            <label for="userIcon"> Icon: </label>
+            <div class="customDropDown">
+                <div id="selectedIcon"> Select Icon </div> 
+                <div id="dropDownMenu">
+                    <div class="dropdownItem" data-value="dumbbell"><i class="fa-solid fa-dumbbell"></i> </div>
+                    <div class="dropdownItem" data-value="bolt"><i class="fa-solid fa-bolt"></i> </div>
+                    <div class="dropdownItem" data-value="sun"><i class="fa-solid fa-sun"></i> </div>
+                    <div class="dropdownItem" data-value="moon"><i class="fa-solid fa-moon"></i> </div>
+                    <div class="dropdownItem" data-value="brain"><i class="fa-solid fa-brain"></i> </div>
+                    <div class="dropdownItem" data-value="trophy"><i class="fa-solid fa-trophy"></i> </div>
+                    <div class="dropdownItem" data-value="crown"><i class="fa-solid fa-crown"></i> </div>
+                    <div class="dropdownItem" data-value="dragon"><i class="fa-solid fa-dragon"></i> </div>
+                    <div class="dropdownItem" data-value="jet-fighter"><i class="fa-solid fa-jet-fighter"></i> </div>
+                    <div class="dropdownItem" data-value="guitar"><i class="fa-solid fa-guitar"></i></div>
+                </div>
+            </div>
+        </span>
+        <span>
+            <label for="roomName"> Room Name: </label>
+            <input type="text" id="roomName" name="roomName" required>
+        </span>
+        <button type="button" id = "enterInput"> Start Chatting  </button>
     </div>
+    <p id="asterisk"> *If you have any concerns click on the question mark on the bottom left of your screen. </p>
+    <div id="bottomButtons">
+        <button type="button" id = qButton> <i class="fa-solid fa-circle-question"></i> </i> </button>
+    </div>
+        <script src="js/index.js"></script>
+        <script src="https://kit.fontawesome.com/a084be21d7.js" crossorigin="anonymous"></script>
 </body>
+
 </html>
