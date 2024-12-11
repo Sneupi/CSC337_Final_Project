@@ -21,18 +21,21 @@ Desc: LogIn Page for CSS 337 Project
         </span>
         <span> 
             <label for="userIcon"> Icon: </label>
-            <select id="userIcon" name="userIcon"> 
-                <option value="bicep"> Bicep Emoji </option>
-                <option value="flower"> Flower Emoji </option>
-                <option value="animal"> Animal Emoji </option>
-                <option value="peace"> Peace Emoji </option>
-                <option value="tree"> Tree Emoji </option>
-                <option value="surfer"> Surf Hand Emoji </option>
-                <option value="fairy"> Fairy Emoji </option>
-                <option value="diamond"> Diamond Emoji </option>
-                <option value="glasses"> Glasses Emoji </option>
-                <option value="book"> Book Emoji </option>
-            </select>
+            <div class="customDropDown">
+                <div id="selectedIcon"> Select Icon </div> 
+                <div id="dropDownMenu">
+                    <div class="dropdownItem" data-value="dumbbell"><i class="fa-solid fa-dumbbell"></i> </div>
+                    <div class="dropdownItem" data-value="bolt"><i class="fa-solid fa-bolt"></i> </div>
+                    <div class="dropdownItem" data-value="sun"><i class="fa-solid fa-sun"></i> </div>
+                    <div class="dropdownItem" data-value="moon"><i class="fa-solid fa-moon"></i> </div>
+                    <div class="dropdownItem" data-value="brain"><i class="fa-solid fa-brain"></i> </div>
+                    <div class="dropdownItem" data-value="trophy"><i class="fa-solid fa-trophy"></i> </div>
+                    <div class="dropdownItem" data-value="crown"><i class="fa-solid fa-crown"></i> </div>
+                    <div class="dropdownItem" data-value="dragon"><i class="fa-solid fa-dragon"></i> </div>
+                    <div class="dropdownItem" data-value="jet-fighter"><i class="fa-solid fa-jet-fighter"></i> </div>
+                    <div class="dropdownItem" data-value="guitar"><i class="fa-solid fa-guitar"></i></div>
+                </div>
+            </div>
         </span>
         <span>
             <label for="roomName"> Room Name: </label>
@@ -42,9 +45,10 @@ Desc: LogIn Page for CSS 337 Project
     </div>
     <p id="asterisk"> *If you have any concerns click on the question mark on the bottom left of your screen. </p>
     <div id="bottomButtons">
-        <button type="button" id = qButton> ? </button>
+        <button type="button" id = qButton> <i class="fa-solid fa-circle-question"></i> </i> </button>
     </div>
         <script src="js/index.js"></script>
+        <script src="https://kit.fontawesome.com/a084be21d7.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

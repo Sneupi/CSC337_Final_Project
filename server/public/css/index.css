@@ -62,3 +62,20 @@ button {
     margin-top: 50px;
     font-size: 16px;
 }
+
+#selectedIcon {
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#dropDownMenu {
+    padding: 5px;
+    border: 1px solid black;
+    display: none;
+}
+
+#dropDownMenu.open {
+    display: block;
+}
