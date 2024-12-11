@@ -1,4 +1,5 @@
 
+const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 const User = require('./models/User');
@@ -10,10 +11,9 @@ const port = 3000;
 const db_url = process.env.MONGO_URL || 'mongodb://localhost:27017';
 
 app.use(express.json()); // Middleware to parse JSON requests
-app.use(express.static('public')); // Serve static frontend files
+app.use(express.static(path.join(__dirname, 'public'))); // Serve static frontend files
 
 // Basic Skeleton for server.js, subject to change if needed
-
 
 /**
  * ====================
@@ -31,12 +31,73 @@ app.use(express.static('public')); // Serve static frontend files
  * - Middleware for session validation on all routes.
  */
 app.post('/login', async (req, res) => {
-    // TODO: Gabe implements user login.
+    if (!req.body.userName || !req.body.userIcon) {
+        return res.status(404).json({ message: 'Expected JSON attributes: userName, userIcon' });
+    }
+    // ... the POST body is valid ...
+    let userName = req.body.userName;
+    let userIcon = req.body.userIcon;
+    try {
+        let user = await User.findOne({ user_id: userName });
+        if (!user) {
+            user = new User({ user_id: userName, session: null, icon: userIcon });
+            await user.save();
+        }
+        // ... user exists in db ...
+        if (user && user.session) {
+            return res.status(404).json({ message: 'Username currently in-use' });
+        }
+        // ... username is free ...
+        const sessionId = new mongoose.Types.ObjectId().toString();
+        res.cookie('sessionId', sessionId, { httpOnly: true, secure: true });
+        user.session = sessionId;
+        await user.save();
+        // ... created & shared the session cookie ...
+        res.status(200).json({ message: 'Logged in successfully' });
+        // ... logged OK ...
+
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
 });
 
+
+
 app.post('/logout', async (req, res) => {
-    // TODO: Gabe implements user logout and session cleanup.
+    try { req.cookies.sessionId } catch (error) {
+        return res.status(404).json({ message: error.message });
+    }
+    // ... the POST body is valid ...
+    let sessionId = req.cookies.sessionId;
+    if (!sessionId) {
+        return res.status(404).json({ message: 'No session found' });
+    }
+    // ... session cookie is present ...
+    try {
+        let user = await User.findOne({ session: sessionId });
+        if (!user) {
+            return res.status(404).json({ message: 'Invalid session' });
+        }
+        // ... session found in db ...
+        user.session = null;
+        await user.save();
+        res.clearCookie('sessionId');
+        res.status(200).json({ message: 'Logged out successfully' });
+        // ... cleared ...
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
 });
+
+
+
+/// prepend all paths with "api" to differentiate betwwen backend what the user wats to see on a web page and what we are working wth on the backend
+
+
+
+
+
+
 
 /**
  * ========================
@@ -50,36 +111,118 @@ app.post('/logout', async (req, res) => {
  * 4. Handle errors for nonexistent or duplicate rooms.
  * 5. Ensure room data is persistent in MongoDB.
  */
-app.post('/rooms', async (req, res) => {
-    // TODO: Implement room creation logic.
-    // Steps:
-    // 1. Validate request payload (e.g., room name is provided).
-    // 2. Check if the room already exists in the database.
-    // 3. If not, create and save the room in MongoDB.
-    // 4. Respond with success or error message.
+
+
+
+// Create a room
+app.post('/api/rooms', async (req, res) => {
+    try {
+        const { roomName } = req.body; // Extract room name from the request body
+        if (!roomName) {
+            return res.status(400).json({ message: "Room name is required" }); // Validate input
+        }
+
+        const existingRoom = await Room.findOne({ room_id: roomName }); // Check if the room already exists
+        if (existingRoom) {
+            return res.status(409).json({ message: "Room already exists" }); // Handle duplicate room error
+        }
+
+        const newRoom = new Room({ room_id: roomName }); // Create a new room object
+        await newRoom.save(); // Save the new room in the database
+
+        res.status(201).json({
+            message: "Room created successfully",
+            room: newRoom, // Include room details in the response
+        });
+    } catch (err) {
+        res.status(500).json({
+            message: "Error creating the room",
+            error: err.message, // Send error details in response
+        });
+    }
 });
 
-app.get('/rooms', async (req, res) => {
-    // TODO: Fetch list of all available rooms.
-    // Steps:
-    // 1. Query the Room collection in MongoDB.
-    // 2. Return a JSON array of room names or IDs.
+// Fetch all available rooms by id
+app.get('/api/rooms', async (req, res) => {
+    try {
+        const rooms = await Room.find().select('room_id -_id'); // Fetch all room IDs from the database
+
+        if (rooms.length === 0) {
+            return res.status(200).json({
+                message: "No rooms found",
+                rooms: [], // Return an empty list if no rooms exist
+            });
+        }
+
+        res.status(200).json({
+            message: "Rooms fetched successfully",
+            rooms: rooms.map(room => room.room_id), // Extract and return room IDs only
+        });
+    } catch (err) {
+        res.status(500).json({
+            message: "Error fetching rooms",
+            error: err.message, // Send error details in response
+        });
+    }
 });
 
-app.post('/rooms/:roomId/join', async (req, res) => {
-    // TODO: Handle user joining a room.
-    // Steps:
-    // 1. Validate that the room exists.
-    // 2. Add the user to the list of active users in the room.
-    // 3. Respond with success or an appropriate error message.
+// Add users to a room
+app.post('/api/rooms/:roomId/join', async (req, res) => {
+    try {
+        const { roomId } = req.params; // Get room ID from URL parameters
+        const { userId } = req.body; // Extract user ID from request body
+
+        if (!userId) {
+            return res.status(400).json({ message: "User ID is required to join a room" }); // Validate input
+        }
+
+        const room = await Room.findOne({ room_id: roomId }); // Ensure the room exists
+        if (!room) {
+            return res.status(404).json({ message: "Room not found" });
+        }
+
+        if (room.activeUsers && room.activeUsers.includes(userId)) {
+            return res.status(409).json({ message: "User already in the room" }); // Prevent duplicate user addition
+        }
+
+        room.activeUsers = room.activeUsers || []; // Initialize active users if not present
+        room.activeUsers.push(userId); // Add user to the room
+        await room.save(); // Save the updated room to the database
+
+        res.status(200).json({ message: "Joined room successfully", room }); // Return success response
+    } catch (err) {
+        res.status(500).json({ message: "Error joining the room", error: err.message }); // Handle unexpected errors
+    }
 });
 
-app.post('/rooms/:roomId/leave', async (req, res) => {
-    // TODO: Handle user leaving a room.
-    // Steps:
-    // 1. Validate that the room exists.
-    // 2. Remove the user from the list of active users in the room.
-    // 3. Respond with success or an appropriate error message.
+// Allow user to leave a room
+app.post('/api/rooms/:roomId/leave', async (req, res) => {
+    try {
+        const { roomId } = req.params; // Get room ID from URL parameters
+        const { userId } = req.body; // Extract user ID from request body
+
+        if (!userId) {
+            return res.status(400).json({ message: "User ID is required to leave a room" }); // Validate input
+        }
+
+        const room = await Room.findOne({ room_id: roomId }); // Ensure the room exists
+        if (!room) {
+            return res.status(404).json({ message: "Room not found" });
+        }
+
+        // If there are active users in the room
+        if (room.activeUsers) {
+            // Iterate over the 'activeUsers' array and create a new array that includes only the IDs
+            // that are not equal to the specified 'userId'. This effectively removes 'userId' from the list
+            // while keeping all other user IDs intact.
+            room.activeUsers = room.activeUsers.filter(id => id !== userId); // Remove user from the active users list
+            await room.save(); // Save the updated room to the database
+        }
+
+        res.status(200).json({ message: "Left room successfully", room }); // Return success response
+    } catch (err) {
+        res.status(500).json({ message: "Error leaving the room", error: err.message }); // Handle unexpected errors
+    }
 });
 
 /**
@@ -92,22 +235,85 @@ app.post('/rooms/:roomId/leave', async (req, res) => {
  * 2. Fetch recent messages for a room.
  * 3. Ensure message data is stored persistently in MongoDB.
  */
-app.post('/rooms/:roomId/messages', async (req, res) => {
-    // TODO: Implement message sending logic.
-    // Steps:
-    // 1. Validate request payload (e.g., message content and user session).
-    // 2. Save the message in the Message collection with a timestamp.
-    // 3. Notify other users in the room (if applicable, e.g., via long polling).
-    // 4. Respond with success or error message.
+
+
+// Send message to a room
+app.post('/api/rooms/:roomId/messages', async (req, res) => {
+    try {
+        const { roomId } = req.params; // Extract room ID from URL
+        const { userId, content } = req.body; // Extract user ID and message content from request body
+
+        if (!content || !userId) {
+            return res.status(400).json({ message: "Message content and user ID are required" }); // Validate input
+        }
+
+        // Fetch the Room's ObjectId and details
+        const room = await Room.findOne({ room_id: roomId });
+        if (!room) {
+            return res.status(404).json({ message: "Room not found" });
+        }
+
+        // Fetch the User's ObjectId and details
+        const user = await User.findOne({ user_id: userId });
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Create and save the message
+        const message = new Message({
+            user: user._id, // Use the ObjectId of the user
+            room: room._id, // Use the ObjectId of the room
+            content,
+            timestamp: new Date(),
+        });
+
+        await message.save(); // Save the message to the database
+
+        // Respond with the user and room names
+        res.status(201).json({
+            message: "Message sent successfully",
+            messageData: {
+                user: { user_id: user.user_id, icon: user.icon }, // Include user details
+                room: room.room_id, // Include room name
+                content: message.content,
+                timestamp: message.timestamp,
+            },
+        }); // Respond with success
+    } catch (err) {
+        res.status(500).json({ message: "Error sending message", error: err.message }); // Handle unexpected errors
+    }
 });
 
-app.get('/rooms/:roomId/messages', async (req, res) => {
-    // TODO: Fetch recent messages for a specific room.
-    // Steps:
-    // 1. Validate that the room exists.
-    // 2. Query the Message collection for messages belonging to the room.
-    // 3. Return a JSON array of messages, ordered by timestamp.
+
+
+// Fetch Messages from a room
+app.get('/api/rooms/:roomId/messages', async (req, res) => {
+    try {
+        const { roomId } = req.params; // Extract room ID from URL
+
+        const room = await Room.findOne({ room_id: roomId }); // Ensure the room exists
+        if (!room) {
+            return res.status(404).json({ message: "Room not found" });
+        }
+
+        const messages = await Message.find({ room: room._id })
+            .populate({ 
+                path: 'user', 
+                select: 'user_id icon -_id' // Select user_id and icon, explicitly exclude _id
+            })
+            .populate({ 
+                path: 'room', 
+                select: 'room_id -_id' // Select room_id and exclude _id
+            })
+            .sort({ timestamp: 1 }); // Fetch and sort messages by timestamp
+
+        res.status(200).json({ messages }); // Respond with the messages
+    } catch (err) {
+        res.status(500).json({ message: "Error fetching messages", error: err.message }); // Handle unexpected errors
+    }
 });
+
+
 
 /**
  * =====================
@@ -118,18 +324,22 @@ app.get('/rooms/:roomId/messages', async (req, res) => {
  * 1. Fetch the list of active users in a room.
  * 2. Ensure proper handling of disconnected users.
  */
-app.get('/rooms/:roomId/users', async (req, res) => {
-    // TODO: Fetch list of active users in a room.
-    // Steps:
-    // 1. Validate that the room exists.
-    // 2. Query the Room collection or a related collection for active users.
-    // 3. Return a JSON array of usernames or user IDs.
+
+// Fetch the list of active users in a room
+app.get('/api/rooms/:roomId/users', async (req, res) => {
+    try {
+        const { roomId } = req.params; // Extract room ID from URL
+
+        const room = await Room.findOne({ room_id: roomId }); // Ensure the room exists
+        if (!room) {
+            return res.status(404).json({ message: "Room not found" });
+        }
+
+        res.status(200).json({ activeUsers: room.activeUsers || [] }); // Respond with the list of active users
+    } catch (err) {
+        res.status(500).json({ message: "Error fetching users", error: err.message }); // Handle unexpected errors
+    }
 });
-
-// TODO : ADD ROUTE FOR USER ICON UPDATE
-
-app.get('/rooms/:roomId/create', async (req, res) => {
-    });
 
 /**
  * ====================
@@ -143,14 +353,14 @@ app.get('/rooms/:roomId/create', async (req, res) => {
  */
 app.use((err, req, res, next) => {
     console.error(err.stack); // Log error for debugging
-    res.status(500).json({ error: 'Something went wrong on the server!' });
+    res.status(500).json({ error: 'Something went wrong on the server!' }); // Respond with a generic error
 });
 
 /**
  * ====================
  * DATABASE CONNECTION
  * ====================
- * MongoDB connection setup.
+ * Connect to MongoDB and start the server
  */
 mongoose.connect(db_url, { serverSelectionTimeoutMS: 5000 })
     .then(() => {
@@ -159,5 +369,5 @@ mongoose.connect(db_url, { serverSelectionTimeoutMS: 5000 })
         });
     })
     .catch((err) => {
-        console.error("Database initialization failed:", err);
+        console.error("Database initialization failed:", err); // Log database connection errors
     });
