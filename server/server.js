@@ -208,6 +208,14 @@ app.post('/api/rooms/:roomId/join', async (req, res) => {
         room.activeUsers = room.activeUsers || []; // Initialize active users if not present
         room.activeUsers.push(userId); // Add user to the room
         await room.save(); // Save the updated room to the database
+        
+        // Set user room
+        let user = await User.findOne({ user_id: userId }); 
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        user.room = roomId;
+        await user.save();
 
         res.status(200).json({ message: "Joined room successfully", room }); // Return success response
     } catch (err) {
@@ -238,6 +246,14 @@ app.post('/api/rooms/:roomId/leave', async (req, res) => {
             room.activeUsers = room.activeUsers.filter(id => id !== userId); // Remove user from the active users list
             await room.save(); // Save the updated room to the database
         }
+
+        // Clear user room
+        let user = await User.findOne({ user_id: userId }); 
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        user.room = null;
+        await user.save();
 
         res.status(200).json({ message: "Left room successfully", room }); // Return success response
     } catch (err) {
