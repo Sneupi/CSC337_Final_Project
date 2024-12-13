@@ -190,7 +190,7 @@ app.get('/api/rooms', async (req, res) => {
 app.post('/api/rooms/:roomId/join', async (req, res) => {
     try {
         const { roomId } = req.params; // Get room ID from URL parameters
-        const { userId } = req.body; // Extract user ID from request body
+        const userId = req.body.userId; // Extract user ID from request body
 
         if (!userId) {
             return res.status(400).json({ message: "User ID is required to join a room" }); // Validate input
@@ -227,7 +227,7 @@ app.post('/api/rooms/:roomId/join', async (req, res) => {
 app.post('/api/rooms/:roomId/leave', async (req, res) => {
     try {
         const { roomId } = req.params; // Get room ID from URL parameters
-        const { userId } = req.body; // Extract user ID from request body
+        const userId = req.body.userId; // Extract user ID from request body
 
         if (!userId) {
             return res.status(400).json({ message: "User ID is required to leave a room" }); // Validate input
