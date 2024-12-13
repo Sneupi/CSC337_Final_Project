@@ -142,6 +142,10 @@ app.post('/api/rooms', async (req, res) => {
         if (existingRoom) {
             return res.status(409).json({ message: "Room already exists" }); // Handle duplicate room error
         }
+        const rooms = await Room.find().select('room_id -_id');
+        if(rooms.length >= 5){
+            return res.status(405).json({message: "Maximum number of rooms created"});
+        }
 
         const newRoom = new Room({ room_id: roomName }); // Create a new room object
         await newRoom.save(); // Save the new room in the database
@@ -187,7 +191,7 @@ app.post('/api/rooms/:roomId/join', async (req, res) => {
     try {
         const { roomId } = req.params; // Get room ID from URL parameters
         const { userId } = req.body; // Extract user ID from request body
-
+        
         if (!userId) {
             return res.status(400).json({ message: "User ID is required to join a room" }); // Validate input
         }

@@ -17,6 +17,15 @@ userInfoReq.onreadystatechange = () => {
         userIconP.innerHtml = "<i class='" + userInfoReq.body.userIcon + "'></i>";
     }
 }
+
+const joinRoomReq = new XMLHttpRequest();
+joinRoomReq.onreadystatechange = () => {
+    if (joinRoomReq.readyState != 4){
+        return;
+    }
+
+}
+
 //Gets list of rooms to display and make available to join
 const getRoomsReq = new XMLHttpRequest();
 getRoomsReq.onreadystatechange = () => {
@@ -47,6 +56,7 @@ getRoomsReq.onreadystatechange = () => {
                 currButton.innerText = "Join";
                 currButton.addEventListener("click", function(e){
                     //add user to room
+                    joinRoomReq.open("POST", "http://localhost:3000/api/rooms");
                     window.location - "./chatRoom.html";
                 });
                 currDiv.appendChild(currButton);
@@ -69,13 +79,32 @@ makeRoomReq.onreadystatechange = () => {
     if (makeRoomReq.readyState != 4){
         return;
     }
-    if(makeRoomReq.status == 404){
-
-    }else{
-        
+    if(makeRoomReq.status == 400){
+        window.alert("No room name given");
+        console.log(makeRoomReq.body.message);
+        return;
     }
+    if(makeRoomReq.status == 500){
+        window.alert("Error creating room");
+        console.log(makeRoomReq.body.message);
+        return;
+    }
+    if(makeRoomReq.status == 409){
+        window.alert("Room already exists");
+        console.log(makeRoomReq.body.message);
+        return;
+    }
+    if(makeRoomReq.status == 405){
+        window.alert("Cannot create any more rooms");
+        console.log(makeRoomReq.body.message);
+        return;
+    }
+    if(makeRoomReq.status == 201){
+        getRoomsReq.open("GET", "http://localhost:3000/api/rooms");
+        getRoomsReq.send();
+    }
+    console.log("error makeroomreq");
 }
-
 
 //Event listener for adding a room
 document.getElementById("roomButton").addEventListener("click", function(e){
