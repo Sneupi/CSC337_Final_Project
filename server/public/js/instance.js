@@ -7,15 +7,16 @@ userInfoReq.onreadystatechange = () => {
     if (userInfoReq.readyState != 4){
         return;
     }
-    let usernameP = document.getElementById("userNameDisp");
+    let usernameP = document.getElementById("usernameDip");
     let userIconP = document.getElementById("userIconDisp");
     if(userInfoReq.status == 404){
         console.log("Not logged in");
         usernameP.innerText = "Not logged in";
     }else{
         loggedIn = true;
-        usernameP.innerText = JSON.parse(userInfoReq.responseText).username;
-        userIconP.innerHtml = "<i class='" + JSON.parse(userInfoReq.responseText).userIcon + "'></i>";
+        let response = JSON.parse(userInfoReq.responseText);
+        usernameP.innerText = response.username;
+        userIconP.innerHtml = "<i class='" + response.icon + "'></i>";
     }
 }
 
@@ -67,16 +68,23 @@ getRoomsReq.onreadystatechange = () => {
         roomsDiv.appendChild(currDiv);
         console.log(getRoomsReq.body.message);
     }else{
-        if(getRoomsReq.body.message === "No rooms found"){
+        let response = JSON.parse(getRoomsReq.responseText);
+        if(response.message === "No rooms found"){
             currDiv = document.createElement("div");
             currDiv.innerHTML = "No rooms currently available, create a new chat room to get started!";
             roomsDiv.appendChild(currDiv);
             console.log("no rooms");
         }else{
-            rooms = getRoomsReq.body.rooms;
+            rooms = response.rooms;
             for(let i = 0; i < rooms.length; i++){
                 currDiv = document.createElement("div");
-                currDiv.innerText = room[i];
+                
+                currDiv.style.display = "flex";
+                currDiv.style.justifyContent = "center";
+                currDiv.style.alignItems = "center";
+                currDiv.style.flexDirection = "column";
+
+                currDiv.innerText = rooms[i];
                 currButton = document.createElement("button");
                 currButton.innerText = "Join";
                 currButton.addEventListener("click", function(e){
@@ -145,4 +153,46 @@ document.getElementById("roomButton").addEventListener("click", function(e){
     }
     createRoomReq.open("POST", 'http://localhost:3000/api/rooms');
     createRoomsReq.send(document.getElementById("newRoom").value);
+});
+
+//Logs user out and returns home if successful
+const logoutReq = new XMLHttpRequest();
+logoutReq.onreadystatechange = () => {
+    if (logoutReq.readyState != 4){
+        return;
+    }
+    if(logoutReq.status == 404){
+        console.log("404: ");
+        window.alert("Error logging out");
+    }else{
+        window.alert("Log out successful");
+        window.location = "./index.html";
+    }
+}
+document.getElementById("logOut").addEventListener("click", function(e){
+    console.log("Attempting log out");
+    logoutReq.open("POST", "http://localhost:3000/api/logout");
+    logoutReq.send();
+});
+
+// Help Button
+let helpButton = document.getElementById("qButton");
+helpButton.addEventListener("click", function(e){
+    window.location = "./helpPage.html";
+});
+// Home Button
+document.getElementById("homeButton").addEventListener("click", function(e){
+    if(loggedIn){
+        window.location = "./chatInstance.html";
+    }else{
+        window.location = "./index.html";
+    }
+});
+// Chatroom button
+document.getElementById("chatButton").addEventListener("click", function(e){
+    if(loggedIn){
+        window.location = "./chatRoom.html";
+    }else{
+        window.alert("Must be logged in to chat");
+    }
 });
