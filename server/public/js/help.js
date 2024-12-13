@@ -13,17 +13,18 @@ userInfoReq.onreadystatechange = () => {
     let usernameP = document.getElementById("userNameDisp");
     let userIconP = document.getElementById("userIconDisp");
     if(userInfoReq.status == 404){
-        console.log("Not logged in");
+        console.log(userInfoReq.responseText);
         usernameP.innerText = "Not logged in";
     }else{
         loggedIn = true;
-        usernameP.innerText = userInfoReq.body.username;
-        userIconP.innerHtml = "<i class='" + userInfoReq.body.userIcon + "'></i>";
+        let response = JSON.parse(userInfoReq.responseText);
+        usernameP.innerText = response.username;
+        userIconP.innerHtml = "<i class='" + response.icon + "'></i>";
     }
 }
 window.addEventListener("load", function(e){
     console.log("help page loaded");
-    userInfoReq.open("POST", "http://localhost:3000/api/userInfo");
+    userInfoReq.open("GET", "http://localhost:3000/api/userInfo");
     userInfoReq.send();
 });
 
