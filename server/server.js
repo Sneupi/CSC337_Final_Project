@@ -191,7 +191,7 @@ app.post('/api/rooms/:roomId/join', async (req, res) => {
     try {
         const { roomId } = req.params; // Get room ID from URL parameters
         const { userId } = req.body; // Extract user ID from request body
-        
+
         if (!userId) {
             return res.status(400).json({ message: "User ID is required to join a room" }); // Validate input
         }
@@ -357,6 +357,22 @@ app.get('/api/rooms/:roomId/users', async (req, res) => {
         res.status(200).json({ activeUsers: room.activeUsers || [] }); // Respond with the list of active users
     } catch (err) {
         res.status(500).json({ message: "Error fetching users", error: err.message }); // Handle unexpected errors
+    }
+});
+
+// Fetch the id of the room the user is in
+app.get('/api/rooms/id', async (req, res) => {
+    try {
+        let sessionID = req.cookies.sessionId;
+        let user = await User.findOne({session: sessionID});
+        if(!user){
+            return res.status(404).json({ message: 'Could not find user info for your session' });
+        }else{
+            await Room.findOne({activeUsers});
+            return res.status(200).json();
+        }
+    } catch (err) {
+        res.status(500).json({ message: "Error fetching room info", error: err.message }); // Handle unexpected errors
     }
 });
 
