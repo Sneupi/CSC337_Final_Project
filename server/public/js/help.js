@@ -50,14 +50,14 @@ document.getElementById("logOut").addEventListener("click", function(e){
 
 document.getElementById("homeButton").addEventListener("click", function(e){
     if(loggedIn){
-        window.alert("Must log out to return home");
+        window.location = "./chatInstance.html";
     }else{
         window.location = "./index.html";
     }
 });
 document.getElementById("chatButton").addEventListener("click", function(e){
     if(loggedIn){
-        window.location = "./chatInstance.html";
+        window.location = "./chatRoom.html";
     }else{
         window.alert("Must be logged in to chat");
     }
