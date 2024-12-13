@@ -1,5 +1,6 @@
 let loggedIn = false;
 let rooms = [];
+let userId = "";
 //Gets user info to display in top right when page loads
 const userInfoReq = new XMLHttpRequest();
 userInfoReq.onreadystatechange = () => {
@@ -13,8 +14,8 @@ userInfoReq.onreadystatechange = () => {
         usernameP.innerText = "Not logged in";
     }else{
         loggedIn = true;
-        usernameP.innerText = userInfoReq.body.username;
-        userIconP.innerHtml = "<i class='" + userInfoReq.body.userIcon + "'></i>";
+        usernameP.innerText = JSON.parse(userInfoReq.responseText).username;
+        userIconP.innerHtml = "<i class='" + JSON.parse(userInfoReq.responseText).userIcon + "'></i>";
     }
 }
 
@@ -23,7 +24,31 @@ joinRoomReq.onreadystatechange = () => {
     if (joinRoomReq.readyState != 4){
         return;
     }
-
+    let response = JSON.parse(joinRoomReq.responseText);
+    if(joinRoomReq.status == 400){
+        window.alert(response.message);
+        console.log(response.message);
+        return
+    }
+    if(joinRoomReq.status == 404){
+        window.alert(response.message);
+        console.log(reponse.message);
+        return
+    }
+    if(joinRoomReq.status == 409){
+        window.alert(response.message);
+        console.log(response.message);
+        return
+    }
+    if(joinRoomReq.status == 500){
+        window.alert(response.message);
+        console.log(response.message);
+        return
+    }
+    if(joinRoomReq.status == 201){
+        window.location = "./chatRoom.html";
+    }
+    console.log("Error joinRoomReq");
 }
 
 //Gets list of rooms to display and make available to join
@@ -56,8 +81,8 @@ getRoomsReq.onreadystatechange = () => {
                 currButton.innerText = "Join";
                 currButton.addEventListener("click", function(e){
                     //add user to room
-                    joinRoomReq.open("POST", "http://localhost:3000/api/rooms");
-                    window.location - "./chatRoom.html";
+                    joinRoomReq.open("POST", "http://localhost:3000/api/rooms/" + rooms[i] + "/join");
+                    joinRoomReq.send(userId);
                 });
                 currDiv.appendChild(currButton);
                 roomsDiv.appendChild(currDiv);
@@ -67,14 +92,14 @@ getRoomsReq.onreadystatechange = () => {
 }
 
 window.addEventListener("load", function(e){
-    console.log("help page loaded");
-    userInfoReq.open("POST", "http://localhost:3000/api/userInfo");
+    console.log("Instance page loaded");
+    userInfoReq.open("GET", "http://localhost:3000/api/userInfo");
     userInfoReq.send();
     getRoomsReq.open("GET", "http://localhost:3000/api/rooms");
     getRoomsReq.send();
 });
 
-const RoomsReq = new XMLHttpRequest();
+const makeRoomReq = new XMLHttpRequest();
 makeRoomReq.onreadystatechange = () => {
     if (makeRoomReq.readyState != 4){
         return;
