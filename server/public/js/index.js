@@ -1,0 +1,68 @@
+
+/*const dropdownButton = document.getElementById('selectedIcon');
+const dropdownMenu = document.getElementById('dropdownMenu');
+const items = document.querySelectorAll('.dropdown-item');
+console.log(dropdownMenu.classList);
+dropdownButton.addEventListener('click', () => {
+    dropdownMenu.classList.toggle('open');
+});
+
+items.forEach(item => {
+    item.addEventListener('click', () => {
+        dropdownButton.innerHTML = item.innerHTML;
+        dropdownButton.dataset.value = item.dataset.value; // Store selected value
+        dropdownMenu.classList.remove('open');
+    });
+});
+
+// Close the dropdown if clicked outside
+document.addEventListener('click', (event) => {
+    if (!dropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+        dropdownMenu.classList.remove('open');
+    }
+});*/
+
+console.log("&#128213");
+
+let helpButton = document.getElementById("qButton");
+helpButton.addEventListener("click", function(e){
+    window.location = "./helpPage.html";
+});
+const xmlLoginReq = new XMLHttpRequest();
+
+xmlLoginReq.onreadystatechange = () => {
+    console.log(xmlLoginReq.readyState);
+    if (xmlLoginReq.readyState != 4){
+        console.log("unready", xmlLoginReq.readyState);
+        return;
+    }
+    if (xmlLoginReq.status == 404) {
+        console.log(404, xmlLoginReq.response.body.message);
+        if(xmlLoginReq.response.body.message === 'Username currently in-use'){
+            window.alert("Username currently in-use, pick another");
+        }else{
+            window.alert("Error: " + xmlLoginReq.response.body.message);
+        }
+    }
+    console.log("went through");
+    if(xmlLoginReq.response.body.message === 'Logged in successfully'){
+        //switch page to rooms page
+        window.location = "./chatRoom.html"
+    }
+}
+
+document.getElementById("enterInput").addEventListener("click", function(e){
+    let name = document.getElementById("userName").value;
+    if(name === ""){
+        window.alert("Enter name");
+        return;
+    }
+    let icon = emojiDict[document.getElementById("userIcon").value];
+    let room = document.getElementById("roomName").value;
+    if(room === ""){
+        window.alert("Enter room name");
+        return;
+    }
+    xmlLoginReq.open("POST", "http://localhost:3000/api/login");
+    xmlLoginReq.send(JSON.stringify({userName: name, userIcon: icon, roomName: room}));
+});

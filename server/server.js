@@ -74,6 +74,21 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
+//Created by Alec, Gets user information
+app.get('/api/userInfo', async (req, res) => {
+    try {
+        let sessionID = req.cookies.sessionId;
+        let user = await User.findOne({session: sessionID});
+        if(!user){
+            return res.status(404).json({ message: 'Could not find user info for your session' });
+        }else{
+            return res.status(200).json({username: user.userId, icon: user.userIcon});
+        }
+    } catch (err) {
+        res.status(500).json({ message: "Error fetching user info", error: err.message }); // Handle unexpected errors
+    }
+});
+
 app.post('/api/logout', async (req, res) => {
     try { req.cookies.sessionId } catch (error) {
         return res.status(404).json({ message: error.message });
@@ -313,7 +328,6 @@ app.get('/api/rooms/:roomId/messages', async (req, res) => {
         res.status(500).json({ message: "Error fetching messages", error: err.message }); // Handle unexpected errors
     }
 });
-
 
 
 /**
