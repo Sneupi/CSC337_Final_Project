@@ -57,7 +57,7 @@ document.getElementById("enterInput").addEventListener("click", function(e){
         window.alert("Enter name");
         return;
     }
-    let icon = emojiDict[document.getElementById("userIcon").value];
+    let icon = document.getElementById("userIcon").value;
     let room = document.getElementById("roomName").value;
     if(room === ""){
         window.alert("Enter room name");
