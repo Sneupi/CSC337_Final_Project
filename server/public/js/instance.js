@@ -174,3 +174,25 @@ document.getElementById("logOut").addEventListener("click", function(e){
     logoutReq.open("POST", "http://localhost:3000/api/logout");
     logoutReq.send();
 });
+
+// Help Button
+let helpButton = document.getElementById("qButton");
+helpButton.addEventListener("click", function(e){
+    window.location = "./helpPage.html";
+});
+// Home Button
+document.getElementById("homeButton").addEventListener("click", function(e){
+    if(loggedIn){
+        window.location = "./chatInstance.html";
+    }else{
+        window.location = "./index.html";
+    }
+});
+// Chatroom button
+document.getElementById("chatButton").addEventListener("click", function(e){
+    if(loggedIn){
+        window.location = "./chatRoom.html";
+    }else{
+        window.alert("Must be logged in to chat");
+    }
+});
