@@ -78,12 +78,7 @@ getRoomsReq.onreadystatechange = () => {
             rooms = response.rooms;
             for(let i = 0; i < rooms.length; i++){
                 currDiv = document.createElement("div");
-                
-                currDiv.style.display = "flex";
-                currDiv.style.justifyContent = "center";
-                currDiv.style.alignItems = "center";
-                currDiv.style.flexDirection = "column";
-
+                currDiv.className = "instance"
                 currDiv.innerText = rooms[i];
                 currButton = document.createElement("button");
                 currButton.innerText = "Join";
