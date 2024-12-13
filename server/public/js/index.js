@@ -36,18 +36,19 @@ xmlLoginReq.onreadystatechange = () => {
         console.log("unready", xmlLoginReq.readyState);
         return;
     }
+    let response = JSON.parse(xmlLoginReq.responseText);
     if (xmlLoginReq.status == 404) {
-        console.log(404, xmlLoginReq.response.body.message);
-        if(xmlLoginReq.response.body.message === 'Username currently in-use'){
+        console.log(404, response.message);
+        if(response.message === 'Username currently in-use'){
             window.alert("Username currently in-use, pick another");
         }else{
-            window.alert("Error: " + xmlLoginReq.response.body.message);
+            window.alert("Error: " + response.message);
         }
     }
     console.log("went through");
-    if(xmlLoginReq.response.body.message === 'Logged in successfully'){
+    if(response.message === 'Logged in successfully'){
         //switch page to rooms page
-        window.location = "./chatRoom.html"
+        window.location = "./chatRoom.html" //FIXME direct to room browser page
     }
 }
 
@@ -57,12 +58,13 @@ document.getElementById("enterInput").addEventListener("click", function(e){
         window.alert("Enter name");
         return;
     }
-    let icon = emojiDict[document.getElementById("userIcon").value];
+    let icon = document.getElementById("userIcon").value;
     let room = document.getElementById("roomName").value;
     if(room === ""){
         window.alert("Enter room name");
         return;
     }
     xmlLoginReq.open("POST", "http://localhost:3000/api/login");
+    xmlLoginReq.setRequestHeader("Content-Type", "application/json");
     xmlLoginReq.send(JSON.stringify({userName: name, userIcon: icon, roomName: room}));
 });
