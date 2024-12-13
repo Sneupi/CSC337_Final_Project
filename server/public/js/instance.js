@@ -1,5 +1,6 @@
 let loggedIn = false;
 let rooms = [];
+let userId = "";
 //Gets user info to display in top right when page loads
 const userInfoReq = new XMLHttpRequest();
 userInfoReq.onreadystatechange = () => {
@@ -23,7 +24,26 @@ joinRoomReq.onreadystatechange = () => {
     if (joinRoomReq.readyState != 4){
         return;
     }
-
+    if(joinRoomReq.status == 400){
+        
+        console.log(joinRoomReq.body.message);
+        return
+    }
+    if(joinRoomReq.status == 404){
+        
+        console.log(joinRoomReq.body.message);
+        return
+    }
+    if(joinRoomReq.status == 409){
+        
+        console.log(joinRoomReq.body.message);
+        return
+    }
+    if(joinRoomReq.status == 500){
+        
+        console.log(joinRoomReq.body.message);
+        return
+    }
 }
 
 //Gets list of rooms to display and make available to join
@@ -56,8 +76,8 @@ getRoomsReq.onreadystatechange = () => {
                 currButton.innerText = "Join";
                 currButton.addEventListener("click", function(e){
                     //add user to room
-                    joinRoomReq.open("POST", "http://localhost:3000/api/rooms");
-                    window.location - "./chatRoom.html";
+                    joinRoomReq.open("POST", "http://localhost:3000/api/rooms/" + rooms[i] + "/join");
+                    window.location = "./chatRoom.html";
                 });
                 currDiv.appendChild(currButton);
                 roomsDiv.appendChild(currDiv);
