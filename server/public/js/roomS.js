@@ -6,11 +6,21 @@ let usersInRoom = [];
 
 const sendLogoutReq = new XMLHttpRequest();
 sendLogoutReq.onreadystatechange = () => {
-
+    if(sendLogoutReq.readyState != 4){
+        return;
+    }
+    if(sendLogoutReq.status == 404){
+        window.alert(response.message);
+        console.log(response.message);
+        return;
+    }
+    if(sendLogoutReq.status == 200){
+        window.location = "./index.html";
+    }
 }
-
 document.getElementById("logOut").addEventListener("click", function(e){
-    
+    sendLogoutReq.open("POST", "http://localhost:3000/api/logout");
+    sendLogoutReq.send();
 });
 
 const sendMessageReq = new XMLHttpRequest();
@@ -114,20 +124,22 @@ userInfoReq.onreadystatechange = () => {
     if(userInfoReq.status == 200){
         loggedIn = true;
         userId = JSON.parse(userInfoReq.responseText).username;
+        userIcon = JSON.parse(userInfoReq.responseText).icon;
         usernameP.innerText = userId;
-        userIcon = JSON.parse(userInfoReq.responseText).icon
-        userIconP.innerHtml = "<i class='" + userIcon + "'></i>";
+        userIconP.innerHTML = "<i class='" + userIcon + "'></i>";
         roomId = JSON.parse(userInfoReq.responseText).room;
+        console.log("set room id: ", roomId);
         loadRoomInfo();
         //document.getElementById("userChat").innerText = userId + userIcon +  ": ";
     }
 }
 
 function loadRoomInfo(){
+    console.log("opening with roomid: ", roomId);
     roomUsersReq.open("GET", "http://localhost:3000/api/rooms/" + roomId + "/users");
     roomUsersReq.send();
     roomMessagesReq.open("GET", "http://localhost:3000/api/rooms/" + roomId + "/messages");
-    roomUsersReq.send();
+    roomMessagesReq.send();
 }
 
 window.addEventListener("load", function(e){
