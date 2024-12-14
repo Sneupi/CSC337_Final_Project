@@ -1,0 +1,16 @@
+When deploying remotely, the server fails to send cookies 
+back to the user after creating the sessionId on the server-side, 
+effectively rendering the user unable access their sessionId and
+chats despite successful login. This was not solved by the time we had to submit.
+
+A valid cookie can be set manually via browser Application cookie 
+storage as variable "sessionId" and the site begins to work again.
+
+Here's a list of valid cookies to use to actually use the site.
+(Sorry for the inconvenience)
+
+675cf2ef3f5efd63d5fe414a
+675cf2f33f5efd63d5fe4152
+675cf2f63f5efd63d5fe415a
+675cf2f93f5efd63d5fe4162
+675cf2fc3f5efd63d5fe416a
