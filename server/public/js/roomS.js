@@ -58,10 +58,8 @@ roomMessagesReq.onreadystatechange = () => {
         let messageDisplay = document.getElementById("chat");
         let str = "Existing chat:\n";
         for(let i = 0; i < messages.length; i++){
-            str += messages[i].timestamp;
-            str += " - ";
-            str += messages[i].user;
-            str += messages[i].userIcon;
+            str += messages[i].user.user_id;
+            str += messages[i].user.icon;
             str += ": ";
             str += messages[i].content;
             str += "\n";
