@@ -9,6 +9,10 @@ sendLogoutReq.onreadystatechange = () => {
 
 }
 
+document.getElementById("logOut").addEventListener("click", function(e){
+    
+});
+
 const sendMessageReq = new XMLHttpRequest();
 sendMessageReq.onreadystatechange = () => {
     if(sendMessageReq.readyState != 4){
@@ -114,6 +118,7 @@ userInfoReq.onreadystatechange = () => {
         userIcon = JSON.parse(userInfoReq.responseText).icon
         userIconP.innerHtml = "<i class='" + userIcon + "'></i>";
         roomId = JSON.parse(userInfoReq.responseText).room;
+        loadRoomInfo();
         //document.getElementById("userChat").innerText = userId + userIcon +  ": ";
     }
 }
@@ -129,7 +134,6 @@ window.addEventListener("load", function(e){
     console.log("Instance page loaded");
     userInfoReq.open("GET", "http://localhost:3000/api/userInfo");
     userInfoReq.send();
-    loadRoomInfo();
 });
 
 document.getElementById("enterButton").addEventListener("click", function(e){
