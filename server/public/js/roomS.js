@@ -29,7 +29,7 @@ sendMessageReq.onreadystatechange = () => {
         return;
     }
     let response = JSON.parse(sendMessageReq.responseText);
-    if(sendMessageReq.status == 404 || sendMessageReq.status == 500){
+    if(sendMessageReq.status == 404 || sendMessageReq.status == 500 || sendMessageReq.status == 400){
         window.alert(response.message);
         console.log(response.message);
         return;
@@ -91,7 +91,7 @@ roomUsersReq.onreadystatechange = () => {
         usersInRoom = JSON.parse(roomUsersReq.responseText).activeUsers;
         let usersDisp = document.getElementById("userList");
         let currLI;
-        for(let i = 0; i < usersInRoom; i++){
+        for(let i = 0; i < usersInRoom.length; i++){
             currLI = document.createElement("li");
             currLI.innerText = usersInRoom[i];
             usersDisp.appendChild(currLI);
@@ -151,6 +151,8 @@ window.addEventListener("load", function(e){
 document.getElementById("enterButton").addEventListener("click", function(e){
     sendMessageReq.open("POST", "http://localhost:3000/api/rooms/" + roomId + "/messages");
     sendMessageReq.setRequestHeader("Content-Type", "application/json");
+    console.log(document.getElementById("userChat").innerText);
+    console.log(userId);
     sendMessageReq.send(JSON.stringify({userId: userId, content: document.getElementById("userChat").innerText}));
     document.getElementById("userChat").innerText = "";
     loadRoomInfo();
