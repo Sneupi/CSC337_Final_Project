@@ -19,7 +19,7 @@ sendLogoutReq.onreadystatechange = () => {
     }
 }
 document.getElementById("logOut").addEventListener("click", function(e){
-    sendLogoutReq.open("POST", "http://localhost:3000/api/logout");
+    sendLogoutReq.open("POST", "http://209.38.144.139:3000/api/logout");
     sendLogoutReq.send();
 });
 
@@ -36,7 +36,7 @@ sendMessageReq.onreadystatechange = () => {
     }
     if(sendMessageReq.status == 201){
         console.log("message sent successfully");
-        roomMessagesReq.open("GET", "http://localhost:3000/api/rooms/" + roomId + "/messages");
+        roomMessagesReq.open("GET", "http://209.38.144.139:3000/api/rooms/" + roomId + "/messages");
         roomMessagesReq.send();
     }
     console.log("error roomMessagesReq");
@@ -134,20 +134,20 @@ userInfoReq.onreadystatechange = () => {
 
 function loadRoomInfo(){
     console.log("opening with roomid: ", roomId);
-    roomUsersReq.open("GET", "http://localhost:3000/api/rooms/" + roomId + "/users");
+    roomUsersReq.open("GET", "http://209.38.144.139:3000/api/rooms/" + roomId + "/users");
     roomUsersReq.send();
-    roomMessagesReq.open("GET", "http://localhost:3000/api/rooms/" + roomId + "/messages");
+    roomMessagesReq.open("GET", "http://209.38.144.139:3000/api/rooms/" + roomId + "/messages");
     roomMessagesReq.send();
 }
 
 window.addEventListener("load", function(e){
     console.log("Instance page loaded");
-    userInfoReq.open("GET", "http://localhost:3000/api/userInfo");
+    userInfoReq.open("GET", "http://209.38.144.139:3000/api/userInfo");
     userInfoReq.send();
 });
 
 document.getElementById("enterButton").addEventListener("click", function(e){
-    sendMessageReq.open("POST", "http://localhost:3000/api/rooms/" + roomId + "/messages");
+    sendMessageReq.open("POST", "http://209.38.144.139:3000/api/rooms/" + roomId + "/messages");
     sendMessageReq.setRequestHeader("Content-Type", "application/json");
     console.log(document.getElementById("userChat").value);
     console.log(userId);

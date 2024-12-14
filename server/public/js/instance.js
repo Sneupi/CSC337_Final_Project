@@ -85,7 +85,7 @@ getRoomsReq.onreadystatechange = () => {
                 currButton.innerText = "Join";
                 currButton.addEventListener("click", function(e){
                     //add user to room
-                    joinRoomReq.open("POST", "http://localhost:3000/api/rooms/" + rooms[i] + "/join");
+                    joinRoomReq.open("POST", "http://209.38.144.139:3000/api/rooms/" + rooms[i] + "/join");
                     joinRoomReq.setRequestHeader("Content-Type", "application/json");
                     joinRoomReq.send(JSON.stringify({userId: userId}));
                 });
@@ -98,9 +98,9 @@ getRoomsReq.onreadystatechange = () => {
 
 window.addEventListener("load", function(e){
     console.log("Instance page loaded");
-    userInfoReq.open("GET", "http://localhost:3000/api/userInfo");
+    userInfoReq.open("GET", "http://209.38.144.139:3000/api/userInfo");
     userInfoReq.send();
-    getRoomsReq.open("GET", "http://localhost:3000/api/rooms");
+    getRoomsReq.open("GET", "http://209.38.144.139:3000/api/rooms");
     getRoomsReq.send();
 });
 
@@ -130,7 +130,7 @@ makeRoomReq.onreadystatechange = () => {
         return;
     }
     if(makeRoomReq.status == 201){
-        getRoomsReq.open("GET", "http://localhost:3000/api/rooms");
+        getRoomsReq.open("GET", "http://209.38.144.139:3000/api/rooms");
         getRoomsReq.send();
     }
     console.log("error makeroomreq");
@@ -148,7 +148,7 @@ document.getElementById("roomButton").addEventListener("click", function(e){
             return;
         }
     }
-    createRoomReq.open("POST", 'http://localhost:3000/api/rooms');
+    createRoomReq.open("POST", 'http://209.38.144.139:3000/api/rooms');
     createRoomsReq.send(document.getElementById("newRoom").value);
 });
 
@@ -168,7 +168,7 @@ logoutReq.onreadystatechange = () => {
 }
 document.getElementById("logOut").addEventListener("click", function(e){
     console.log("Attempting log out");
-    logoutReq.open("POST", "http://localhost:3000/api/logout");
+    logoutReq.open("POST", "http://209.38.144.139:3000/api/logout");
     logoutReq.send();
 });
 

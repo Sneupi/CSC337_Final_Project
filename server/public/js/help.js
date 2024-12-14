@@ -24,7 +24,7 @@ userInfoReq.onreadystatechange = () => {
 }
 window.addEventListener("load", function(e){
     console.log("help page loaded");
-    userInfoReq.open("GET", "http://localhost:3000/api/userInfo");
+    userInfoReq.open("GET", "http://209.38.144.139:3000/api/userInfo");
     userInfoReq.send();
 });
 
@@ -44,7 +44,7 @@ logoutReq.onreadystatechange = () => {
 }
 document.getElementById("logOut").addEventListener("click", function(e){
     console.log("Attempting log out");
-    logoutReq.open("POST", "http://localhost:3000/api/logout");
+    logoutReq.open("POST", "http://209.38.144.139:3000/api/logout");
     logoutReq.send();
 });
 

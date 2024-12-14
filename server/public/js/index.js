@@ -59,12 +59,12 @@ document.getElementById("enterInput").addEventListener("click", function(e){
         return;
     }
     let icon = document.getElementById("userIcon").value;
-    let room = document.getElementById("roomName").value;
-    if(room === ""){
-        window.alert("Enter room name");
-        return;
-    }
-    xmlLoginReq.open("POST", "http://localhost:3000/api/login");
+    // let room = document.getElementById("roomName").value;
+    // if(room === ""){
+    //     window.alert("Enter room name");
+    //     return;
+    // }
+    xmlLoginReq.open("POST", "http://209.38.144.139:3000/api/login");
     xmlLoginReq.setRequestHeader("Content-Type", "application/json");
     xmlLoginReq.send(JSON.stringify({userName: name, userIcon: icon, roomName: room}));
 });
