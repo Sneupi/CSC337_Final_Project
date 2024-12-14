@@ -12,13 +12,16 @@ userInfoReq.onreadystatechange = () => {
     if(userInfoReq.status == 404){
         console.log("Not logged in");
         usernameP.innerText = "Not logged in";
-    }else{
+    }
+    if(userInfoReq.status == 200){
         loggedIn = true;
         let response = JSON.parse(userInfoReq.responseText);
         userId = response.username; // userId is username
         usernameP.innerText = response.username;
-        userIconP.innerHtml = "<i class='" + response.icon + "'></i>";
+        userIconP.innerHTML = "<i class='" + response.icon + "'></i>";
+        return;
     }
+    console.log("error userinforeq");
 }
 
 const joinRoomReq = new XMLHttpRequest();
