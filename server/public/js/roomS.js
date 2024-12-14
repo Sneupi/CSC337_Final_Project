@@ -151,9 +151,9 @@ window.addEventListener("load", function(e){
 document.getElementById("enterButton").addEventListener("click", function(e){
     sendMessageReq.open("POST", "http://localhost:3000/api/rooms/" + roomId + "/messages");
     sendMessageReq.setRequestHeader("Content-Type", "application/json");
-    console.log(document.getElementById("userChat").innerText);
+    console.log(document.getElementById("userChat").value);
     console.log(userId);
-    sendMessageReq.send(JSON.stringify({userId: userId, content: document.getElementById("userChat").innerText}));
+    sendMessageReq.send(JSON.stringify({userId: userId, content: document.getElementById("userChat").value}));
     document.getElementById("userChat").innerText = "";
     loadRoomInfo();
 });
