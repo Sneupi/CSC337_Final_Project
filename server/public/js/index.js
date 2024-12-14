@@ -48,7 +48,7 @@ xmlLoginReq.onreadystatechange = () => {
     console.log("went through");
     if(response.message === 'Logged in successfully'){
         //switch page to rooms page
-        window.location = "./chatRoom.html" //FIXME direct to room browser page
+        window.location = "./chatInstance.html" //FIXME direct to room browser page
     }
 }
 

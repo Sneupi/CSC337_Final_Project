@@ -148,8 +148,8 @@ document.getElementById("roomButton").addEventListener("click", function(e){
             return;
         }
     }
-    createRoomReq.open("POST", 'http://209.38.144.139:3000/api/rooms');
-    createRoomsReq.send(document.getElementById("newRoom").value);
+    makeRoomReq.open("POST", 'http://209.38.144.139:3000/api/rooms');
+    makeRoomsReq.send(document.getElementById("newRoom").value);
 });
 
 //Logs user out and returns home if successful
