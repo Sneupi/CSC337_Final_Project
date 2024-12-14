@@ -66,5 +66,5 @@ document.getElementById("enterInput").addEventListener("click", function(e){
     // }
     xmlLoginReq.open("POST", "http://209.38.144.139:3000/api/login");
     xmlLoginReq.setRequestHeader("Content-Type", "application/json");
-    xmlLoginReq.send(JSON.stringify({userName: name, userIcon: icon, roomName: room}));
+    xmlLoginReq.send(JSON.stringify({userName: name, userIcon: icon, roomName: null}));
 });
