@@ -82,7 +82,7 @@ app.get('/api/userInfo', async (req, res) => {
         if(!user){
             return res.status(404).json({ message: 'Could not find user info for your session' });
         }else{
-            return res.status(200).json({username: user.user_id, icon: user.icon});
+            return res.status(200).json({username: user.user_id, icon: user.icon, room: user.room});
         }
     } catch (err) {
         res.status(500).json({ message: "Error fetching user info", error: err.message }); // Handle unexpected errors
