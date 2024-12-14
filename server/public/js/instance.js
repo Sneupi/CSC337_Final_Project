@@ -15,6 +15,7 @@ userInfoReq.onreadystatechange = () => {
     }else{
         loggedIn = true;
         let response = JSON.parse(userInfoReq.responseText);
+        userId = response.username; // userId is username
         usernameP.innerText = response.username;
         userIconP.innerHtml = "<i class='" + response.icon + "'></i>";
     }
@@ -46,7 +47,7 @@ joinRoomReq.onreadystatechange = () => {
         console.log(response.message);
         return
     }
-    if(joinRoomReq.status == 201){
+    if(joinRoomReq.status == 201 || joinRoomReq.status == 200){
         window.location = "./chatRoom.html";
     }
     console.log("Error joinRoomReq");
@@ -85,7 +86,8 @@ getRoomsReq.onreadystatechange = () => {
                 currButton.addEventListener("click", function(e){
                     //add user to room
                     joinRoomReq.open("POST", "http://localhost:3000/api/rooms/" + rooms[i] + "/join");
-                    joinRoomReq.send(userId);
+                    joinRoomReq.setRequestHeader("Content-Type", "application/json");
+                    joinRoomReq.send(JSON.stringify({userId: userId}));
                 });
                 currDiv.appendChild(currButton);
                 roomsDiv.appendChild(currDiv);
