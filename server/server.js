@@ -62,7 +62,8 @@ app.post('/api/login', async (req, res) => {
         }
         // ... freed old session cookie (if any) ...
         const sessionId = new mongoose.Types.ObjectId().toString();
-        res.cookie('sessionId', sessionId, { httpOnly: true, secure: true });
+        // res.cookie('sessionId', sessionId, { httpOnly: true, secure: true });
+        res.setHeader('Set-Cookie', `sessionId=${sessionId}; HttpOnly; Secure; SameSite=None`);
         user.session = sessionId;
         await user.save();
         // ... created & shared the session cookie ...
@@ -107,7 +108,8 @@ app.post('/api/logout', async (req, res) => {
         // ... session found in db ...
         user.session = null;
         await user.save();
-        res.clearCookie('sessionId');
+        // res.clearCookie('sessionId');
+        res.setHeader('Set-Cookie', `sessionId=; HttpOnly; Secure; SameSite=None; Max-Age=0`);
         res.status(200).json({ message: 'Logged out successfully' });
         // ... cleared ...
     } catch (error) {
