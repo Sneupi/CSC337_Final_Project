@@ -29,6 +29,7 @@ helpButton.addEventListener("click", function(e){
     window.location = "./helpPage.html";
 });
 const xmlLoginReq = new XMLHttpRequest();
+xmlLoginReq.withCredentials = true;
 
 xmlLoginReq.onreadystatechange = () => {
     console.log(xmlLoginReq.readyState);

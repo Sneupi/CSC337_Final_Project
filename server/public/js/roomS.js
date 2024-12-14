@@ -5,6 +5,7 @@ let roomId = "";
 let usersInRoom = [];
 
 const sendLogoutReq = new XMLHttpRequest();
+sendLogoutReq.withCredentials = true;
 sendLogoutReq.onreadystatechange = () => {
     if(sendLogoutReq.readyState != 4){
         return;
@@ -24,6 +25,7 @@ document.getElementById("logOut").addEventListener("click", function(e){
 });
 
 const sendMessageReq = new XMLHttpRequest();
+sendMessageReq.withCredentials = true;
 sendMessageReq.onreadystatechange = () => {
     if(sendMessageReq.readyState != 4){
         return;
@@ -43,6 +45,7 @@ sendMessageReq.onreadystatechange = () => {
 }
 
 const roomMessagesReq = new XMLHttpRequest();
+roomMessagesReq.withCredentials = true;
 roomMessagesReq.onreadystatechange = () => {
     if(roomMessagesReq.readyState != 4){
         return;
@@ -71,6 +74,7 @@ roomMessagesReq.onreadystatechange = () => {
 }
 
 const roomUsersReq = new XMLHttpRequest();
+roomUsersReq.withCredentials = true;
 roomUsersReq.onreadystatechange = () => {
     if (roomUsersReq.readyState != 4){
         return;
@@ -101,6 +105,7 @@ roomUsersReq.onreadystatechange = () => {
 
 //Gets user info to display in top right when page loads
 const userInfoReq = new XMLHttpRequest();
+userInfoReq.withCredentials = true;
 userInfoReq.onreadystatechange = () => {
     if (userInfoReq.readyState != 4){
         return;

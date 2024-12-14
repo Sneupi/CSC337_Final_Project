@@ -3,6 +3,7 @@ let rooms = [];
 let userId = "";
 //Gets user info to display in top right when page loads
 const userInfoReq = new XMLHttpRequest();
+userInfoReq.withCredentials = true;
 userInfoReq.onreadystatechange = () => {
     if (userInfoReq.readyState != 4){
         return;
@@ -25,6 +26,7 @@ userInfoReq.onreadystatechange = () => {
 }
 
 const joinRoomReq = new XMLHttpRequest();
+joinRoomReq.withCredentials = true;
 joinRoomReq.onreadystatechange = () => {
     if (joinRoomReq.readyState != 4){
         return;
@@ -58,6 +60,7 @@ joinRoomReq.onreadystatechange = () => {
 
 //Gets list of rooms to display and make available to join
 const getRoomsReq = new XMLHttpRequest();
+getRoomsReq.withCredentials = true;
 getRoomsReq.onreadystatechange = () => {
     if (getRoomsReq.readyState != 4){
         return;
@@ -108,6 +111,7 @@ window.addEventListener("load", function(e){
 });
 
 const makeRoomReq = new XMLHttpRequest();
+makeRoomReq.withCredentials = true;
 makeRoomReq.onreadystatechange = () => {
     if (makeRoomReq.readyState != 4){
         return;
@@ -158,6 +162,7 @@ document.getElementById("roomButton").addEventListener("click", function(e){
 
 //Logs user out and returns home if successful
 const logoutReq = new XMLHttpRequest();
+logoutReq.withCredentials = true;
 logoutReq.onreadystatechange = () => {
     if (logoutReq.readyState != 4){
         return;

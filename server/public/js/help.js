@@ -6,6 +6,7 @@ homeButton.addEventListener("click", function(e){
 
 //Gets user info to display in top right when page loads
 const userInfoReq = new XMLHttpRequest();
+userInfoReq.withCredentials = true;
 userInfoReq.onreadystatechange = () => {
     if (userInfoReq.readyState != 4){
         return;
@@ -30,6 +31,7 @@ window.addEventListener("load", function(e){
 
 //Logs user out and returns home if successful
 const logoutReq = new XMLHttpRequest();
+logoutReq.withCredentials = true;
 logoutReq.onreadystatechange = () => {
     if (logoutReq.readyState != 4){
         return;
