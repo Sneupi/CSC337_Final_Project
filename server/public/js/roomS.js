@@ -18,7 +18,7 @@ sendMessageReq.onreadystatechange = () => {
     if(sendMessageReq.status == 201){
         console.log("message sent successfully");
         roomMessagesReq.open("GET", "http://localhost:3000/api/rooms/" + roomId + "/messages");
-        roomUsersReq.send();
+        roomMessagesReq.send();
     }
     console.log("error roomMessagesReq");
 }
@@ -106,7 +106,7 @@ userInfoReq.onreadystatechange = () => {
         loggedIn = true;
         userId = JSON.parse(userInfoReq.responseText).username;
         usernameP.innerText = userId;
-        userIcon = JSON.parse(userInfoReq.responseText).userIcon
+        userIcon = JSON.parse(userInfoReq.responseText).icon
         userIconP.innerHtml = "<i class='" + userIcon + "'></i>";
         roomId = JSON.parse(userInfoReq.responseText).room;
         //document.getElementById("userChat").innerText = userId + userIcon +  ": ";
