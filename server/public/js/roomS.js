@@ -92,6 +92,7 @@ roomUsersReq.onreadystatechange = () => {
     if(roomUsersReq.status == 200){
         usersInRoom = JSON.parse(roomUsersReq.responseText).activeUsers;
         let usersDisp = document.getElementById("userList");
+        usersDisp.innerHTML = "<h2> Current Users in Room: </h2>";
         let currLI;
         for(let i = 0; i < usersInRoom.length; i++){
             currLI = document.createElement("li");
@@ -157,6 +158,6 @@ document.getElementById("enterButton").addEventListener("click", function(e){
     console.log(document.getElementById("userChat").value);
     console.log(userId);
     sendMessageReq.send(JSON.stringify({userId: userId, content: document.getElementById("userChat").value}));
-    document.getElementById("userChat").innerText = "";
+    document.getElementById("userChat").innerHTML = "";
     loadRoomInfo();
 });
