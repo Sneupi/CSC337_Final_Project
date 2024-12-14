@@ -4,6 +4,11 @@ let userIcon = "";
 let roomId = "";
 let usersInRoom = [];
 
+const sendLogoutReq = new XMLHttpRequest();
+sendLogoutReq.onreadystatechange = () => {
+
+}
+
 const sendMessageReq = new XMLHttpRequest();
 sendMessageReq.onreadystatechange = () => {
     if(sendMessageReq.readyState != 4){
@@ -88,8 +93,8 @@ userInfoReq.onreadystatechange = () => {
     if (userInfoReq.readyState != 4){
         return;
     }
-    let usernameP = document.getElementById("userNameDisp");
-    let userIconP = document.getElementById("userIconDisp");
+    let usernameP = document.getElementById("usernameDisp");
+    let userIconP = document.getElementById("iconDisp");
     if(userInfoReq.status == 404){
         console.log("Not logged in");
         usernameP.innerText = "Not logged in";
