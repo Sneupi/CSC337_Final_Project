@@ -149,6 +149,7 @@ document.getElementById("roomButton").addEventListener("click", function(e){
         }
     }
     makeRoomReq.open("POST", 'http://209.38.144.139:3000/api/rooms');
+    makeRoomReq.setRequestHeader("Content-Type", "application/json");
     makeRoomReq.send(JSON.stringify({roomName: document.getElementById("newRoom").value}));
 });
 
